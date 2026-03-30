@@ -19,15 +19,15 @@ protected:
     }
 };
 
-TEST_P(ResourceTestFixture, TestResourceType){
+TEST_P(ResourceTestFixture, TestResourceTypeF){
     ASSERT_EQ(resource.get_type(), GetParam().rtype);
 }
 
-TEST_P(ResourceTestFixture, TestIsAvailable){
+TEST_P(ResourceTestFixture, TestIsAvailableF){
     EXPECT_TRUE(resource.is_available());
 }
 
-TEST_P(ResourceTestFixture, TestYieldBackAvailable){
+TEST_P(ResourceTestFixture, TestYieldBackAvailableF){
     EXPECT_TRUE(resource.is_available());
     resource.yield_back();
     EXPECT_TRUE(resource.is_available());

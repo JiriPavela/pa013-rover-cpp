@@ -9,12 +9,12 @@ public:
         : Task(id, priority, required_time, required) {}
 };
 
-struct ResourceParamTuple {
+struct ResourceParamTupleM {
     int id;
     ResourceType rtype;
 };
 
-class ResourceTestFixture : public testing::TestWithParam<ResourceParamTuple> {
+class ResourceTestFixtureM : public testing::TestWithParam<ResourceParamTupleM> {
 protected:
     Resource resource{GetParam().id, GetParam().rtype};
 
@@ -27,28 +27,28 @@ protected:
     }
 };
 
-TEST_P(ResourceTestFixture, TestResourceType){
+TEST_P(ResourceTestFixtureM, TestResourceTypeM){
     ASSERT_EQ(resource.get_type(), GetParam().rtype);
 }
 
-TEST_P(ResourceTestFixture, TestIsAvailable){
+TEST_P(ResourceTestFixtureM, TestIsAvailableM){
     EXPECT_TRUE(resource.is_available());
 }
 
-TEST_P(ResourceTestFixture, TestYieldBackAvailable){
+TEST_P(ResourceTestFixtureM, TestYieldBackAvailableM){
     EXPECT_TRUE(resource.is_available());
     resource.yield_back();
     EXPECT_TRUE(resource.is_available());
 }
 
-TEST_P(ResourceTestFixture, TestAllocateBy) {
+TEST_P(ResourceTestFixtureM, TestAllocateByM) {
     TaskMock mtask = TaskMock(0, 10, 3, GetParam().rtype);
     resource.allocate_by(&mtask);
     EXPECT_FALSE(resource.is_available());
     EXPECT_EQ(resource.get_allocating_task(), &mtask);
 }
 
-ResourceParamTuple resources[] = {
+ResourceParamTupleM resourcesM[] = {
     {0, ResourceType::CAMERA},
     {1, ResourceType::ARM},
     {2, ResourceType::ANTENNA},
@@ -56,5 +56,5 @@ ResourceParamTuple resources[] = {
 };
 
 INSTANTIATE_TEST_SUITE_P(ParameterizedResourceUnitTests,
-                         ResourceTestFixture,
-                         testing::ValuesIn(resources));
+                         ResourceTestFixtureM,
+                         testing::ValuesIn(resourcesM));
